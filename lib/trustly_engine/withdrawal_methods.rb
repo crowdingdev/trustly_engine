@@ -2,7 +2,7 @@ module TrustlyEngine
 
 	module WithdrawalMethods
 		
-		#include HTTParty
+#		include HTTParty
 		
 
 		# TODO: Add as a config or figaro env key.
@@ -27,14 +27,22 @@ module TrustlyEngine
 		end
 
 
-		private
+		#private
 
 		def requestor(method, data)
 
 			#request_object = JSONRPCObject.new(method, data)
+			#puts data
+			
+			request_obj = {:body => data, :headers => { 'Content-Type' => 'application/json' } }
+			
+			puts "\n\n #### request object"
+			puts request_obj[:body]
 
-			#result = self.class.post('/', request_object.options)
+			result = HTTParty.post(TrustlyEngine.config.api_base_path, request_obj)
+			return result
 
+			#puts "\n\n #### result"
 			#puts result
 			#r = JSONRPCResult.new(result)
 			#puts r.inspect

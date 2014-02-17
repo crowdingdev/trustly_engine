@@ -1,7 +1,7 @@
 module TrustlyEngine
   class Request < ActiveRecord::Base
     
-    attr_accessible :uuid, :user_id, :locale, :currency, :amount, :first_name, 
+    attr_accessible :uuid, :user_id, :locale, :currency, :amount, :first_name, :country,
     :last_name, :ip, :phone_number, :nin, :address, :signature, :method #, :status_id
     
     has_many :results

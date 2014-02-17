@@ -2,11 +2,13 @@ require "trustly_engine/engine"
 require "trustly_engine/signature"
 require "trustly_engine/withdrawal_methods"
 require "active_support"
+require "httparty"
 
 module TrustlyEngine
 
 	include TrustlyEngine::Signature
 	include TrustlyEngine::WithdrawalMethods
+#	include HTTParty
 
 	def self.configure(&block)
 		yield @config ||= TrustlyEngine::Configuration.new

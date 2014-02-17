@@ -21,3 +21,11 @@ gem "uuid", "~> 2.3.7"
 
 
 gem "faker", "~> 1.1.2"
+
+gem "httparty", "~> 0.12.0"
+
+
+
+group :test do
+	gem "webmock", "~> 1.16.0"
+end

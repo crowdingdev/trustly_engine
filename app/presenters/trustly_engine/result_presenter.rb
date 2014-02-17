@@ -15,13 +15,19 @@ module TrustlyEngine
       :signature => @resource.signature,
       :uuid => @resource.uuid,
       :method => @resource.method,
-      :data => {
-      }
+      :data => self.data
       },
       :version => "1.1"
 
       }.to_json
 
+    end
+
+
+    def data
+      {
+        #@resource.data
+      }
     end
 
   end

@@ -16,11 +16,11 @@ FactoryGirl.define do
     locale "sv_SE"
 
     amount 345
-    currency "SEK"
+    currency "EUR"
     ip "192.168.0.1"
     
     #sequence(:ip) { |n| "192.168.0.#{n}"}
-    phone_number { Faker::PhoneNumber.phone_number }
+    phone_number "" #{ Faker::PhoneNumber.phone_number }
 
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
