@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TrustlyEngine</title>
+  <%= stylesheet_link_tag    "trustly_engine/application", :media => "all" %>
+  <%= javascript_include_tag "trustly_engine/application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+
+	<% if notice  %>
+				<div class="alert alert-success alert-dismissable">
+					<%= notice %>
+				</div>
+				<% elsif alert%>
+				<div class="alert alert-danger alert-dismissable">
+					<%= alert %>
+				</div>
+				<% end %>
+				
+<%= yield %>
+
+</body>
+</html>

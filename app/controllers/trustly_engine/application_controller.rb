@@ -1,0 +1,4 @@
+module TrustlyEngine
+  class ApplicationController < ActionController::Base
+  end
+end
