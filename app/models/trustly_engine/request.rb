@@ -33,7 +33,9 @@ module TrustlyEngine
       self.user_id.to_s + "_" + self.created_at.to_i.to_s
     end
 
-  
+    def self.pending(user_id => nil)
+      self.where(:status => 0).where(:user_id => user_id)
+    end
 
     def status
         [:initiated,:user_processed][self.status_id || 0] 
