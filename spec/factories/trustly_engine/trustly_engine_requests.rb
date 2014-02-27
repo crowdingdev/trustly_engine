@@ -27,7 +27,7 @@ FactoryGirl.define do
 
     nin 3443535
     address Faker::Address.street_address
-
+    notification_id "23435345"
   end
 end
 end

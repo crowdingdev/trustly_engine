@@ -1,39 +1,31 @@
 module TrustlyEngine
-
 	module WithdrawalMethods
 		
-#		include HTTParty
+		# include HTTParty
 		
-
 		# TODO: Add as a config or figaro env key.
-		#base_uri 'https://test.trustly.com/api/1'
-
+		# base_uri 'https://test.trustly.com/api/1'
 
 		def approve_withdrawal (data)
 			return TrustlyEngine.config.api_base_path
 			return requestor('ApproveWithdrawal', data)
 		end
 
-
 		def deny_withdrawal (data)
 
 			return requestor('DenyWithdrawal', data)
-		end
 
+		end
 
 		def withdrawal (data) 
 			
 			return requestor('Withdraw', data)
 		end
 
-
-		#private
+		# private
 
 		def requestor(method, data)
 
-			#request_object = JSONRPCObject.new(method, data)
-			#puts data
-			
 			request_obj = {:body => data, :headers => { 'Content-Type' => 'application/json' } }
 			
 			puts "\n\n #### request object"
@@ -41,12 +33,6 @@ module TrustlyEngine
 
 			result = HTTParty.post(TrustlyEngine.config.api_base_path, request_obj)
 			return result
-
-			#puts "\n\n #### result"
-			#puts result
-			#r = JSONRPCResult.new(result)
-			#puts r.inspect
-			#return r
 
 		end
 		

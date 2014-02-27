@@ -1,10 +1,19 @@
 TrustlyEngine::Engine.routes.draw do
 
-  root :to => "transactions#index"
+	resources :withdrawals, :only => [] do
+		post "approve", :to => "withdrawals#approve"
+		post "deny", :to => "withdrawals#deny"
+	end
+	
+	namespace :api do
+		namespace :notification do
+			namespace :v1 do
+				
+    		post "notifications", :to => "notifications#index"#, :protocol => "https"
+    		
+    	end
+    end
+end
 
-  resources :withdrawals, :only => [] do
-  	  post "approve", :to => "withdrawals#approve"
-  	  post "deny", :to => "withdrawals#deny"
-  end
 
 end

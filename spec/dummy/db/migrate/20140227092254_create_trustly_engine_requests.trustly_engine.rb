@@ -1,3 +1,4 @@
+# This migration comes from trustly_engine (originally 20140214092145)
 class CreateTrustlyEngineRequests < ActiveRecord::Migration
 	def change
 		create_table :trustly_engine_requests do |t|

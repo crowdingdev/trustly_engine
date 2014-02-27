@@ -8,11 +8,11 @@ module TrustlyEngine
     @resource = resource
   end
 
-  def as_json_rpc
-
+  def as_json_rpc(status = "OK")
+    @status = status
     { 
       :result => {
-      :signature => @resource.signature,
+      :signature => sign(@resource.method, @resource.uuid, JSON[self.data.to_json.to_s]), 
       :uuid => @resource.uuid,
       :method => @resource.method,
       :data => self.data
@@ -26,7 +26,7 @@ module TrustlyEngine
 
     def data
       {
-        #@resource.data
+        :status => @status
       }
     end
 

@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140214092145) do
+ActiveRecord::Schema.define(:version => 20140227092254) do
 
   create_table "trustly_engine_requests", :force => true do |t|
     t.string   "method"
     t.string   "uuid"
-    t.string   "signature"
+    t.text     "signature"
     t.integer  "user_id"
     t.string   "locale"
     t.string   "country"
@@ -24,17 +24,22 @@ ActiveRecord::Schema.define(:version => 20140214092145) do
     t.string   "currency"
     t.string   "ip"
     t.string   "phone_number"
+    t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "nin"
     t.string   "address"
-    t.integer  "status_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "status_id",         :default => 0
+    t.string   "order_id"
+    t.string   "request_timestamp"
+    t.string   "message_id"
+    t.string   "notification_id"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
   create_table "trustly_engine_results", :force => true do |t|
-    t.string   "signature"
+    t.text     "signature"
     t.string   "uuid"
     t.string   "method"
     t.string   "order_id"
