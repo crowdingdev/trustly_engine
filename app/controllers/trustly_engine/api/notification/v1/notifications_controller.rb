@@ -6,10 +6,15 @@ module TrustlyEngine
 					
 					def index
 
-						@result = Result.new
-						#@result 
+						@request = Request.new
+							
+						@request.parse_notification(params)
+						
+						if @request.save
+							#render :json => @request
+							render :json => TrustlyEngine::ResultPresenter.new(@request).as_json_rpc
 
-						render :json => {:result => "dodod", :r => params}
+						end					
 					end
 
 				end

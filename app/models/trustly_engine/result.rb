@@ -1,5 +1,9 @@
+#!/bin/env ruby
+# encoding: utf-8
 module TrustlyEngine
 	class Result < ActiveRecord::Base
+    include TrustlyEngine::Signature
+
     attr_accessible :signature, :uuid, :method, :order_id, :url
 
     belongs_to :request
@@ -9,9 +13,19 @@ module TrustlyEngine
     validates :order_id, :presence => true
     validates :url, :presence => true
     validates :method, :presence => true
-    validates :method, inclusion: { in: %w( Withdraw debit ),  message: "%{value} is not an accepted method." }
+    validates :method, inclusion: { in: %w( Withdraw debit ApproveWithdrawal DenyWithdrawal),  message: "%{value} is not an accepted method." }
 
     after_initialize :set_defaults
+
+
+    #validate :check_signature
+
+    def check_signature(data)
+
+      if !verify(self.method, self.uuid, data, self.signature)
+        raise SecurityException
+      end
+    end
 
     def set_defaults
 
@@ -23,10 +37,25 @@ module TrustlyEngine
     	end
     end
 
+    def status
+      
+    end
 
+    # Used to parse result from withdrawal approve and denied methods
+    #def parse_result_json_rpc(result = nil)
+      
+      #self.order_id = result["result"]["data"]["orderid"]
+      #self.signature = result["result"]["signature"]
+      #self.method = request["result"]["method"]
+      #self.result = result["result"]["data"]["result"]
 
+      #check_signature(result["result"]["data"])
 
+      #self.save
 
+    #end
+
+    # Used to respond when trustly sends notification
     def parse_json(request = nil)
       
       self.order_id = request["result"]["data"]["orderid"]
@@ -43,15 +72,5 @@ module TrustlyEngine
 end
 
 
-#{
-#    "result": {
-#        "data": {
-#            "orderid": "2026756229",
-#            "url": "https://test.trustly.com/_/withdraw.php?SessionID=c9ffe756-6198-4dcd-8790-684a587ed961&OrderID=2026756229&Locale=sv_SE"
-#        },
-#        "method": "Withdraw",
-#        "signature": "rz8s4zssh5syosLhFvxt9vdRez4N4uksZuGhKWL5ZI8elVfC8z+iQE+QAdUrrjl2i9hLXzHoUHXlw83QkXHodG91qlj0sBRhXhYOSxfuvOd9yUioLYLJaXOawQpFFZOraMLB8dZf7TdIiiiCB7NcRucOQ5kLvrEnVYuXS9ovxJ54aerzakuV3ynMDb4dQ1JTPgveIAFNM53NQKGIaJNYQFWyqBhUA01HFwoOQ+Pu+uN+k9hk6E6uS3mFC7u+M9Ev0AV8sFNFMWb+YAREUaxwXHPxLQLIyxwjSJ+u9G/KTDMqChpEmml9G9rbHmvdujtdz3BJ71CbKJU/qHN9sZRRQQ==",
-#        "uuid": "c6c6a220-8119-0131-676b-38f6b113f7f9"
-#    },
-#    "version": "1.1"
-#}
+
+

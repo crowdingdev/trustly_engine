@@ -1,6 +1,9 @@
+#!/bin/env ruby
+# encoding: utf-8
 module TrustlyEngine
 
 	module Signature
+		require 'openssl'
 
 		def serialize_data(object)
 
@@ -15,8 +18,8 @@ module TrustlyEngine
 
 			elsif object.kind_of?(Array)
 
-				return object.map{|x| x.kind_of?(String) ? 
-					x : serialize_data(x) }.sort{|x,y| x.to_s <=> y.to_s}.join()
+				return object.map{|x| x.kind_of?(String) ? x : serialize_data(x) }.sort{|x,y| x.to_s <=> y.to_s}.join()
+
 			else
 				return object
 			end
@@ -29,11 +32,11 @@ module TrustlyEngine
 
 			path = TrustlyEngine.config.merchant_private_key_path
 			private_key = OpenSSL::PKey::RSA.new(File.read(path))
+
 			plaintext = method + uuid + serialize_data(data)
 
 			return Base64.encode64(
-				private_key.sign(
-					OpenSSL::Digest::SHA1.new, plaintext)
+				private_key.sign(OpenSSL::Digest::SHA1.new, plaintext)
 				)
 		end
 
@@ -42,14 +45,22 @@ module TrustlyEngine
 
 			path = TrustlyEngine.config.trustly_public_key_path
 			trustly_public_key = OpenSSL::PKey::RSA.new(File.read(path))
+			#return signature_from_trustly
 			plaintext = method + uuid + serialize_data(data)
 
 			return trustly_public_key.verify(
-				OpenSSL::Digest::SHA1.new, Base64.decode64(
-					signature_from_trustly), 
-					plaintext
+				OpenSSL::Digest::SHA1.new, 
+				base64_url_decode(signature_from_trustly),
+				plaintext
 				)
+		end
+
+		def base64_url_decode(str)
+			str += '=' * (4 - str.length.modulo(4))
+			Base64.decode64(str.tr('-_','+/'))
 		end
 
 	end
 end
+
+

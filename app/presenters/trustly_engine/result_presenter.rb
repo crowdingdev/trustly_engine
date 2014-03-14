@@ -1,7 +1,7 @@
 module TrustlyEngine
 
  class ResultPresenter
-
+include TrustlyEngine::Signature
   attr_reader :resource
 
   def initialize( resource )

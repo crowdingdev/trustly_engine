@@ -5,6 +5,7 @@ module TrustlyEngine
 
     attr_reader :resource
 
+    # Takes a Request model
     def initialize( resource )
       @resource = resource
     end
@@ -28,32 +29,27 @@ module TrustlyEngine
         def data
 
           {
-            :NotificationURL => "http://54.72.31.10/", 
+            :NotificationURL => ENV['TRUSTLY_NOTIFICATION_URL'], 
             :EndUserID => @resource.user_id.to_s,
             :MessageID => @resource.message_id,
             :Currency => @resource.currency,
-            :Password => "change_this_NNNh6RxQhz",
-            :Username => "crowding_test",
+            :Password => ENV['TRUSTLY_PASSWORD'],
+            :Username => ENV['TRUSTLY_USERNAME'],
             :Attributes => {
-              :ClearingHouse => "",
-              :BankNumber => "",
-              :AccountNumber => "",
               :SuggestedAmount => sprintf('%.2f', @resource.amount).to_s,
-          :SuggestedMinAmount => "", #sprintf('%.2f', @resource.amount).to_s,
-          :SuggestedMaxAmount => "", #sprintf('%.2f', @resource.amount).to_s,
-          :Locale => @resource.locale,
-          :Country => @resource.country || "",
-          :IP => @resource.ip,
-          :MobilePhone => @resource.phone_number || "",
-          :Firstname => @resource.first_name || "",
-          :Lastname => @resource.last_name || "",
-          :Address => @resource.address || "d sfsdf dsdf fsdf sa",
-          :URLTarget => "_top",
-          :SuccessURL => "http://example.com/wallet/",
-          :FailURL => "http://example.com/wallet/" 
-        }
-      }
+              :Locale => @resource.locale,
+              :Country => @resource.country,
+              :IP => @resource.ip,
+              :Firstname => @resource.first_name || "",
+              :Lastname => @resource.last_name || "",
+              :TemplateURL => "http://82.196.14.209/wallet/withdrawals/",
+              :URLTarget => "_parent",
+              :SuccessURL => "http://82.196.14.209/wallet/withdrawals/success",
+              :FailURL => "http://82.196.14.209/wallet/withdrawals/failed" 
+            }
+          }
 
+        end
+      end
     end
-  end
-end
+
