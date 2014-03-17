@@ -38,6 +38,7 @@ module TrustlyEngine
 			return Base64.encode64(
 				private_key.sign(OpenSSL::Digest::SHA1.new, plaintext)
 				)
+
 		end
 
 
@@ -45,7 +46,7 @@ module TrustlyEngine
 
 			path = TrustlyEngine.config.trustly_public_key_path
 			trustly_public_key = OpenSSL::PKey::RSA.new(File.read(path))
-			#return signature_from_trustly
+			
 			plaintext = method + uuid + serialize_data(data)
 
 			return trustly_public_key.verify(
@@ -53,8 +54,10 @@ module TrustlyEngine
 				base64_url_decode(signature_from_trustly),
 				plaintext
 				)
-		end
 
+		end
+		
+		private
 		def base64_url_decode(str)
 			str += '=' * (4 - str.length.modulo(4))
 			Base64.decode64(str.tr('-_','+/'))
