@@ -86,9 +86,9 @@ module TrustlyEngine
       #return {m: data["method"], uuid: data["params"]["uuid"], data: JSON[data["params"]["data"].to_json.to_s], s: data["params"]["signature"]}
       #return data["params"]["signature"] 
       
-      return verify(data["method"], data["params"]["uuid"], JSON[data["params"]["data"].to_json.to_s], data["params"]["signature"])
+      #return verify(data["method"], data["params"]["uuid"], JSON[data["params"]["data"].to_json.to_s], data["params"]["signature"])
 
-      if !verify(self.method, self.uuid, JSON[data.to_json.to_s], self.signature)
+      if !verify(data["method"], data["params"]["uuid"], JSON[data["params"]["data"].to_json.to_s], data["params"]["signature"])
         raise SecurityException
       end
 
